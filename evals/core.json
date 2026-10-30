@@ -1,0 +1,832 @@
+{
+ "base": "../build/testbed",
+ "queries": [
+  {
+   "q": "a penguin",
+   "expect": [
+    "img/Animals-Penguin.jpg",
+    "traps/duplicates/penguin.jpg",
+    "traps/duplicates/penguin copy.jpg",
+    "video/zoo-trip.mov@0-6"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "black and white striped animal",
+   "expect": [
+    "img/Animals-Zebra.jpg",
+    "video/zoo-trip.mov@6-12"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "bird of prey",
+   "expect": [
+    "img/Animals-Eagle.jpg",
+    "img/Animals-Owl.jpg"
+   ],
+   "tag": "image",
+   "absent": [
+    "traps/node_modules/pkg/eagle.jpg",
+    "traps/MyProject/build/owl.jpg"
+   ]
+  },
+  {
+   "q": "colorful parrot",
+   "expect": [
+    "img/Animals-Parrot.jpg",
+    "video/zoo-trip.mov@12-18"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "string instrument",
+   "expect": [
+    "img/Instruments-Violin.jpg",
+    "img/Instruments-Guitar.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "keyboard instrument",
+   "expect": [
+    "img/Instruments-Piano.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "a record player",
+   "expect": [
+    "img/Instruments-Turntable.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "drums",
+   "expect": [
+    "img/Instruments-Drum.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "planet earth from space",
+   "expect": [
+    "img/Nature-Earth.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "thunderstorm lightning",
+   "expect": [
+    "img/Nature-Lightning.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "a desert cactus",
+   "expect": [
+    "img/Nature-Cactus.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "snowflake",
+   "expect": [
+    "img/Nature-Snowflake.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "bird's nest",
+   "expect": [
+    "img/Nature-Nest.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "yellow flower",
+   "expect": [
+    "img/Flowers-Sunflower.jpg",
+    "img/Flowers-Yellow Daisy.jpg",
+    "traps/Café menü — 日本語.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "a red rose",
+   "expect": [
+    "img/Flowers-Red Rose.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "lotus flower",
+   "expect": [
+    "img/Flowers-Lotus.heic"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "tennis ball",
+   "expect": [
+    "img/Sports-Tennis.png"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "pool billiards ball",
+   "expect": [
+    "img/Sports-8ball.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "bowling",
+   "expect": [
+    "img/Sports-Bowling.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "ice hockey",
+   "expect": [
+    "img/Sports-Hockey.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "fortune cookie",
+   "expect": [
+    "img/Fun-Fortune Cookie.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "gingerbread man cookie",
+   "expect": [
+    "img/Fun-Gingerbread Man.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "yin and yang symbol",
+   "expect": [
+    "img/Fun-Yin-Yang.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "gold medal award",
+   "expect": [
+    "img/Fun-Medal.jpg"
+   ],
+   "tag": "image",
+   "absent": [
+    "traps/Fake.app/Contents/Resources/medal.jpg"
+   ]
+  },
+  {
+   "q": "archery target",
+   "expect": [
+    "img/Sports-Target.jpg"
+   ],
+   "tag": "image",
+   "absent": [
+    "traps/icons/target-32.png"
+   ]
+  },
+  {
+   "q": "a green leaf",
+   "expect": [
+    "img/Nature-Leaf.jpg"
+   ],
+   "tag": "image",
+   "absent": [
+    "traps/.hidden/leaf.jpg"
+   ]
+  },
+  {
+   "q": "payment declined error",
+   "expect": [
+    "screenshots/Screenshot 2026-10-01 at 10.12.33.png"
+   ],
+   "tag": "screenshot"
+  },
+  {
+   "q": "will it rain this afternoon",
+   "expect": [
+    "screenshots/Screenshot 2026-10-03 at 08.40.10.png"
+   ],
+   "tag": "screenshot"
+  },
+  {
+   "q": "when is my dentist appointment",
+   "expect": [
+    "screenshots/Screenshot 2026-10-05 at 19.02.55.png"
+   ],
+   "tag": "screenshot"
+  },
+  {
+   "q": "python missing package error",
+   "expect": [
+    "screenshots/Screenshot 2026-10-07 at 22.15.03.png"
+   ],
+   "tag": "screenshot"
+  },
+  {
+   "q": "flight to Delhi boarding gate",
+   "expect": [
+    "screenshots/Screenshot 2026-10-09 at 06.55.41.png"
+   ],
+   "tag": "screenshot"
+  },
+  {
+   "q": "wifi network settings",
+   "expect": [
+    "screenshots/Screenshot 2026-10-11 at 13.30.00.png"
+   ],
+   "tag": "screenshot"
+  },
+  {
+   "q": "can I keep a dog in the apartment",
+   "expect": [
+    "docs/lease.docx"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "how to make spiced tea with milk",
+   "expect": [
+    "docs/masala-chai.md"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "decision to move the billing database",
+   "expect": [
+    "docs/meeting-notes.txt"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "vacation in Portugal",
+   "expect": [
+    "docs/lisbon-trip.rtf"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "when does my car insurance renew",
+   "expect": [
+    "docs/car-insurance.odt"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "job offer salary details",
+   "expect": [
+    "docs/offer-letter.html"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "how much notice to cancel the gym",
+   "expect": [
+    "docs/gym-membership.txt"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "is my laptop still under warranty",
+   "expect": [
+    "docs/laptop-warranty.md"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "vitamin deficiency in blood test",
+   "expect": [
+    "docs/blood-test-report.txt"
+   ],
+   "tag": "doc"
+  },
+  {
+   "q": "how many weeks of parental leave",
+   "expect": [
+    "pdf/handbook.pdf#5"
+   ],
+   "tag": "pdf-page"
+  },
+  {
+   "q": "can I work from home",
+   "expect": [
+    "pdf/handbook.pdf#7"
+   ],
+   "tag": "pdf-page"
+  },
+  {
+   "q": "claiming travel expenses",
+   "expect": [
+    "pdf/handbook.pdf#6"
+   ],
+   "tag": "pdf-page"
+  },
+  {
+   "q": "revenue growth in Asia",
+   "expect": [
+    "pdf/annual-report.pdf#3"
+   ],
+   "tag": "pdf-page"
+  },
+  {
+   "q": "carbon emissions targets",
+   "expect": [
+    "pdf/annual-report.pdf#5"
+   ],
+   "tag": "pdf-page"
+  },
+  {
+   "q": "grocery shopping receipt",
+   "expect": [
+    "pdf/scan-receipt.pdf"
+   ],
+   "tag": "scanned"
+  },
+  {
+   "q": "expanding to Latin America",
+   "expect": [
+    "office/roadmap.pptx#3"
+   ],
+   "tag": "office"
+  },
+  {
+   "q": "event sponsorship costs",
+   "expect": [
+    "office/budget.xlsx"
+   ],
+   "tag": "office"
+  },
+  {
+   "q": "QWERT6789K",
+   "expect": [
+    "id/IMG_4821.jpg"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "my pan number QWERT6789K",
+   "expect": [
+    "id/IMG_4821.jpg"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "QWERT67",
+   "expect": [
+    "id/IMG_4821.jpg"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "21/BSC/0456",
+   "expect": [
+    "pdf/degree-certificate.pdf"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "INV-2026-031",
+   "expect": [
+    "pdf/invoice-2026-031.pdf"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "MH-PL-778812",
+   "expect": [
+    "docs/car-insurance.odt"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "INC-48213",
+   "expect": [
+    "docs/router-notes.txt"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "PAY-4021",
+   "expect": [
+    "screenshots/Screenshot 2026-10-01 at 10.12.33.png"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "6E 2134",
+   "expect": [
+    "screenshots/Screenshot 2026-10-09 at 06.55.41.png"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "1,284.50",
+   "expect": [
+    "pdf/scan-receipt.pdf"
+   ],
+   "tag": "exact"
+  },
+  {
+   "q": "income tax identity card",
+   "expect": [
+    "id/IMG_4821.jpg"
+   ],
+   "tag": "image"
+  },
+  {
+   "q": "where they talk about sleep",
+   "expect": [
+    "audio/podcast.m4a@30-60"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "how to cook spaghetti",
+   "expect": [
+    "audio/podcast.m4a@0-30"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "advice on index funds",
+   "expect": [
+    "audio/podcast.m4a@60-80"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "buy a birthday present",
+   "expect": [
+    "audio/voice-memo.m4a"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "update on the Chennai warehouse",
+   "expect": [
+    "audio/standup-recording.m4a"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "dolphins jumping next to the boat",
+   "expect": [
+    "video/boat-trip.mov"
+   ],
+   "tag": "video"
+  },
+  {
+   "q": "lentil soup recipe",
+   "expect": [
+    "lang/hi-dal-recipe.txt"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "दाल बनाने की विधि",
+   "expect": [
+    "lang/hi-dal-recipe.txt"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "temples to visit in Kyoto",
+   "expect": [
+    "lang/ja-kyoto-travel.txt"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "invoice for heating maintenance",
+   "expect": [
+    "lang/de-rechnung.txt"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "school closed for Diwali holidays",
+   "expect": [
+    "lang/ta-school-notice.txt"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "penalty for paying rent late",
+   "expect": [
+    "lang/es-contrato-alquiler.txt"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "talking about heavy monsoon rain",
+   "expect": [
+    "lang/hi-monsoon.m4a"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "Real Madrid won the match three to one",
+   "expect": [
+    "lang/es-futbol.m4a"
+   ],
+   "tag": "multilingual"
+  },
+  {
+   "q": "lipstick kiss mark",
+   "expect": [
+    "img/Fun-Smack.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "math equations on a chalkboard",
+   "expect": [
+    "img/Fun-Chalk.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "raked sand spiral pattern",
+   "expect": [
+    "img/Nature-Zen.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "sand dollar shell on the beach",
+   "expect": [
+    "img/Nature-Sandollar.jpg",
+    "video/boat-trip.mov"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "a bee on an orange flower",
+   "expect": [
+    "img/Flowers-Flower.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "dandelion seed head",
+   "expect": [
+    "img/Flowers-Dandelion.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "orange poppy",
+   "expect": [
+    "img/Flowers-Poppy.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "pink dahlia",
+   "expect": [
+    "img/Flowers-Dahlia.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "peach colored rose",
+   "expect": [
+    "img/Flowers-Whiterose.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "american football on grass",
+   "expect": [
+    "img/Sports-Football.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "golf ball close up",
+   "expect": [
+    "img/Sports-Golf.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "soccer ball",
+   "expect": [
+    "img/Sports-Soccer.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "baseball",
+   "expect": [
+    "img/Sports-Baseball.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "basketball",
+   "expect": [
+    "img/Sports-Basketball.jpg"
+   ],
+   "tag": "hard-image"
+  },
+  {
+   "q": "video with a zebra",
+   "expect": [
+    "video/zoo-trip.mov@6-12"
+   ],
+   "tag": "video-frame"
+  },
+  {
+   "q": "video with a penguin",
+   "expect": [
+    "video/zoo-trip.mov@0-6"
+   ],
+   "tag": "video-frame"
+  },
+  {
+   "q": "video with a parrot",
+   "expect": [
+    "video/zoo-trip.mov@12-18"
+   ],
+   "tag": "video-frame"
+  },
+  {
+   "q": "flight to Mumbai",
+   "expect": [
+    "screenshots/Screenshot 2026-10-12 at 17.20.08.png"
+   ],
+   "tag": "near-duplicate"
+  },
+  {
+   "q": "eye doctor appointment",
+   "expect": [
+    "screenshots/Screenshot 2026-10-13 at 09.05.47.png"
+   ],
+   "tag": "near-duplicate"
+  },
+  {
+   "q": "when does my health insurance renew",
+   "expect": [
+    "docs/health-insurance.txt"
+   ],
+   "tag": "near-duplicate"
+  },
+  {
+   "q": "how to make iced coffee",
+   "expect": [
+    "docs/cold-brew-coffee.md"
+   ],
+   "tag": "near-duplicate"
+  },
+  {
+   "q": "router IP address",
+   "expect": [
+    "screenshots/Screenshot 2026-10-11 at 13.30.00.png"
+   ],
+   "tag": "screenshot-detail"
+  },
+  {
+   "q": "my seat on the Delhi flight",
+   "expect": [
+    "screenshots/Screenshot 2026-10-09 at 06.55.41.png"
+   ],
+   "tag": "screenshot-detail"
+  },
+  {
+   "q": "which doctor is my dental appointment with",
+   "expect": [
+    "screenshots/Screenshot 2026-10-05 at 19.02.55.png"
+   ],
+   "tag": "screenshot-detail"
+  },
+  {
+   "q": "chance of rain percentage",
+   "expect": [
+    "screenshots/Screenshot 2026-10-03 at 08.40.10.png"
+   ],
+   "tag": "screenshot-detail"
+  },
+  {
+   "q": "my bank login password",
+   "expect": [],
+   "tag": "privacy",
+   "absent": [
+    "traps/private/my passwords.txt"
+   ]
+  },
+  {
+   "q": "aws secret access key",
+   "expect": [],
+   "tag": "privacy",
+   "absent": [
+    "traps/private/credentials.txt",
+    "traps/private/job-config.md"
+   ]
+  },
+  {
+   "q": "email account recovery codes",
+   "expect": [],
+   "tag": "privacy",
+   "absent": [
+    "traps/private/recovery-codes.md"
+   ]
+  },
+  {
+   "q": "ssh private key for the deploy server",
+   "expect": [],
+   "tag": "privacy",
+   "absent": [
+    "traps/private/server notes.txt"
+   ]
+  },
+  {
+   "q": "spreadsheet of numbers",
+   "expect": [],
+   "tag": "privacy",
+   "absent": [
+    "traps/numbers.csv"
+   ]
+  },
+  {
+   "q": "weather forecast for Thursday",
+   "expect": [
+    "audio/radio-show.m4a@seg1"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "how did the local football team do",
+   "expect": [
+    "audio/radio-show.m4a@seg2"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "road closed for repairs",
+   "expect": [
+    "audio/radio-show.m4a@seg3"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "new bakery opening",
+   "expect": [
+    "audio/radio-show.m4a@seg4"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "library opening hours",
+   "expect": [
+    "audio/radio-show.m4a@seg5"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "jazz festival tickets",
+   "expect": [
+    "audio/radio-show.m4a@seg6"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "hiring product designers",
+   "expect": [
+    "audio/team-meeting.m4a@seg1"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "moving to a new office",
+   "expect": [
+    "audio/team-meeting.m4a@seg2"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "customers leaving after the price change",
+   "expect": [
+    "audio/team-meeting.m4a@seg3"
+   ],
+   "tag": "audio"
+  },
+  {
+   "q": "how often laptops get replaced",
+   "expect": [
+    "audio/team-meeting.m4a@seg4"
+   ],
+   "tag": "audio"
+  }
+ ]
+}

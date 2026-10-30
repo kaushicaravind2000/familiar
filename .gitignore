@@ -1,0 +1,14 @@
+.build/
+build/
+Vendor/
+.DS_Store
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Kept locally, not in the repository: experiment results, the self-check inputs (one is a macOS account picture,
+# not ours to share), and a local testing helper.
+evals/results/
+evals/reference-inputs/
+evals/reference-vectors.json
+scripts/fresh-start.sh

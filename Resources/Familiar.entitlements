@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Lets Familiar ask QuickTime Player to open a recording at the matching moment. -->
+	<key>com.apple.security.automation.apple-events</key>
+	<true/>
+	<!-- Lets Familiar use the microphone when you record a meeting (the hardened runtime blocks it otherwise). -->
+	<key>com.apple.security.device.audio-input</key>
+	<true/>
+</dict>
+</plist>

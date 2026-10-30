@@ -1,0 +1,701 @@
+{
+  "_note": "Multi-turn Ask eval on the generated testbed (scripts/make-test-collection.sh). Each turn: facts (every group must match, any alternative in a group), forbid (claims that make it wrong), gold (files a right answer cites, by path suffix), none (not in the files: the right answer is 'I couldn't find that'). Run: fam converse-eval evals/conversations.json [--naive].",
+  "conversations": [
+    {
+      "id": "pet",
+      "turns": [
+        {
+          "q": "Can I keep a pet in my apartment?",
+          "facts": [
+            [
+              "cat",
+              "dog"
+            ]
+          ],
+          "gold": [
+            "docs/lease.docx"
+          ]
+        },
+        {
+          "q": "How much is the deposit for it?",
+          "facts": [
+            [
+              "15000",
+              "15k"
+            ]
+          ],
+          "gold": [
+            "docs/lease.docx"
+          ]
+        },
+        {
+          "q": "And when is the rent due?",
+          "facts": [
+            [
+              "5th",
+              "fifth"
+            ]
+          ],
+          "gold": [
+            "docs/lease.docx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "insurance",
+      "turns": [
+        {
+          "q": "When does my health insurance renew?",
+          "facts": [
+            [
+              "1 august 2027",
+              "august 1, 2027",
+              "august 1 2027"
+            ]
+          ],
+          "gold": [
+            "docs/health-insurance.txt"
+          ]
+        },
+        {
+          "q": "What about the car one?",
+          "facts": [
+            [
+              "3 march 2027",
+              "march 3, 2027",
+              "march 3 2027"
+            ]
+          ],
+          "gold": [
+            "docs/car-insurance.odt"
+          ]
+        },
+        {
+          "q": "So which renews first?",
+          "facts": [
+            [
+              "car"
+            ]
+          ],
+          "forbid": [
+            "health insurance renews first",
+            "health insurance policy renews first",
+            "health renews first",
+            "health insurance will renew first"
+          ],
+          "gold": [
+            "docs/car-insurance.odt",
+            "docs/health-insurance.txt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meeting",
+      "turns": [
+        {
+          "q": "What was discussed in the team meeting?",
+          "facts": [
+            [
+              "designer"
+            ],
+            [
+              "office",
+              "move"
+            ]
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        },
+        {
+          "q": "When is the office move?",
+          "facts": [
+            [
+              "march"
+            ]
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        },
+        {
+          "q": "Why did churn go up?",
+          "facts": [
+            [
+              "price"
+            ]
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        },
+        {
+          "q": "Who is going to contact those customers?",
+          "facts": [
+            [
+              "sales team"
+            ]
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flights",
+      "turns": [
+        {
+          "q": "Which flights do I have?",
+          "facts": [
+            [
+              "ai 504",
+              "air india"
+            ],
+            [
+              "6e 2134",
+              "indigo"
+            ]
+          ],
+          "gold": [
+            "screenshots/Screenshot 2026-10-09 at 06.55.41.png",
+            "screenshots/Screenshot 2026-10-12 at 17.20.08.png"
+          ]
+        },
+        {
+          "q": "Which one leaves from Delhi?",
+          "facts": [
+            [
+              "ai 504",
+              "air india"
+            ]
+          ],
+          "forbid": [
+            "indigo 6e 2134 leaves from delhi",
+            "indigo leaves from delhi"
+          ],
+          "gold": [
+            "screenshots/Screenshot 2026-10-12 at 17.20.08.png"
+          ]
+        },
+        {
+          "q": "What seat do I have on that one?",
+          "facts": [
+            [
+              "22a"
+            ]
+          ],
+          "forbid": [
+            "14c"
+          ],
+          "gold": [
+            "screenshots/Screenshot 2026-10-12 at 17.20.08.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "leave",
+      "turns": [
+        {
+          "q": "How many days of annual leave do I get?",
+          "facts": [
+            [
+              "24"
+            ]
+          ],
+          "gold": [
+            "pdf/handbook.pdf"
+          ]
+        },
+        {
+          "q": "Can I carry any of them over?",
+          "facts": [
+            [
+              "10"
+            ]
+          ],
+          "gold": [
+            "pdf/handbook.pdf"
+          ]
+        },
+        {
+          "q": "What about sick leave?",
+          "facts": [
+            [
+              "12"
+            ]
+          ],
+          "gold": [
+            "pdf/handbook.pdf"
+          ]
+        },
+        {
+          "q": "Do I need a note for that?",
+          "facts": [
+            [
+              "doctor"
+            ],
+            [
+              "two days",
+              "2 days",
+              "two consecutive",
+              "two days in a row"
+            ]
+          ],
+          "gold": [
+            "pdf/handbook.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recipes",
+      "turns": [
+        {
+          "q": "How long should cold brew steep?",
+          "facts": [
+            [
+              "16 hours",
+              "sixteen hours"
+            ]
+          ],
+          "gold": [
+            "docs/cold-brew-coffee.md"
+          ]
+        },
+        {
+          "q": "What goes into my masala chai?",
+          "facts": [
+            [
+              "ginger"
+            ],
+            [
+              "cardamom"
+            ]
+          ],
+          "gold": [
+            "docs/masala-chai.md"
+          ]
+        },
+        {
+          "q": "How long does it simmer?",
+          "facts": [
+            [
+              "two minutes",
+              "2 minutes"
+            ]
+          ],
+          "forbid": [
+            "16 hours"
+          ],
+          "gold": [
+            "docs/masala-chai.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regions",
+      "turns": [
+        {
+          "q": "Did revenue grow more in Asia Pacific or in Europe?",
+          "facts": [
+            [
+              "asia pacific"
+            ]
+          ],
+          "forbid": [
+            "europe grew more",
+            "europe grew faster"
+          ],
+          "gold": [
+            "pdf/annual-report.pdf"
+          ]
+        },
+        {
+          "q": "By how much in each?",
+          "facts": [
+            [
+              "18"
+            ],
+            [
+              "6"
+            ]
+          ],
+          "gold": [
+            "pdf/annual-report.pdf"
+          ]
+        },
+        {
+          "q": "And what's the net zero target year?",
+          "facts": [
+            [
+              "2035"
+            ]
+          ],
+          "gold": [
+            "pdf/annual-report.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "radio",
+      "turns": [
+        {
+          "q": "What did the radio show say about the weather?",
+          "facts": [
+            [
+              "thursday"
+            ]
+          ],
+          "gold": [
+            "audio/radio-show.m4a"
+          ]
+        },
+        {
+          "q": "And the traffic?",
+          "facts": [
+            [
+              "highway"
+            ],
+            [
+              "monday"
+            ]
+          ],
+          "gold": [
+            "audio/radio-show.m4a"
+          ]
+        },
+        {
+          "q": "What should drivers do instead?",
+          "facts": [
+            [
+              "ring road"
+            ]
+          ],
+          "gold": [
+            "audio/radio-show.m4a"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "invoice",
+      "turns": [
+        {
+          "q": "How much is the hosting invoice?",
+          "facts": [
+            [
+              "21240"
+            ]
+          ],
+          "gold": [
+            "pdf/invoice-2026-031.pdf"
+          ]
+        },
+        {
+          "q": "When is it due?",
+          "facts": [
+            [
+              "30 november",
+              "november 30"
+            ]
+          ],
+          "gold": [
+            "pdf/invoice-2026-031.pdf"
+          ]
+        },
+        {
+          "q": "How much of that is GST?",
+          "facts": [
+            [
+              "3240"
+            ]
+          ],
+          "gold": [
+            "pdf/invoice-2026-031.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "policies",
+      "turns": [
+        {
+          "q": "What's my health insurance policy number?",
+          "facts": [
+            [
+              "hl-55821"
+            ]
+          ],
+          "gold": [
+            "docs/health-insurance.txt"
+          ]
+        },
+        {
+          "q": "And the policy number of my home insurance?",
+          "none": true
+        },
+        {
+          "q": "OK, what's the car insurance policy number then?",
+          "facts": [
+            [
+              "mh-pl-778812"
+            ]
+          ],
+          "gold": [
+            "docs/car-insurance.odt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "which-first",
+      "turns": [
+        {
+          "q": "Until when is AppleCare active on my laptop?",
+          "facts": [
+            [
+              "18 june 2027",
+              "june 18, 2027",
+              "june 18 2027"
+            ]
+          ],
+          "gold": [
+            "docs/laptop-warranty.md"
+          ]
+        },
+        {
+          "q": "And when does my health insurance renew?",
+          "facts": [
+            [
+              "1 august 2027",
+              "august 1, 2027",
+              "august 1 2027"
+            ]
+          ],
+          "gold": [
+            "docs/health-insurance.txt"
+          ]
+        },
+        {
+          "q": "Which of the two comes first?",
+          "facts": [
+            [
+              "applecare"
+            ]
+          ],
+          "forbid": [
+            "health insurance comes first",
+            "health insurance renewal comes first",
+            "health insurance renews first"
+          ],
+          "gold": [
+            "docs/laptop-warranty.md",
+            "docs/health-insurance.txt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boarding",
+      "turns": [
+        {
+          "q": "Which flights do I have?",
+          "facts": [
+            [
+              "ai 504",
+              "air india"
+            ],
+            [
+              "6e 2134",
+              "indigo"
+            ]
+          ],
+          "gold": [
+            "screenshots/Screenshot 2026-10-09 at 06.55.41.png",
+            "screenshots/Screenshot 2026-10-12 at 17.20.08.png"
+          ]
+        },
+        {
+          "q": "Which of them boards earlier in the day?",
+          "facts": [
+            [
+              "indigo",
+              "6e 2134"
+            ]
+          ],
+          "forbid": [
+            "air india boards earlier",
+            "ai 504 boards earlier"
+          ],
+          "gold": [
+            "screenshots/Screenshot 2026-10-09 at 06.55.41.png",
+            "screenshots/Screenshot 2026-10-12 at 17.20.08.png"
+          ]
+        },
+        {
+          "q": "What gate is it from?",
+          "facts": [
+            [
+              "12"
+            ]
+          ],
+          "forbid": [
+            "gate 3"
+          ],
+          "gold": [
+            "screenshots/Screenshot 2026-10-09 at 06.55.41.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "postgres",
+      "turns": [
+        {
+          "q": "Who owns the billing migration?",
+          "facts": [
+            [
+              "priya"
+            ]
+          ],
+          "gold": [
+            "docs/meeting-notes.txt"
+          ]
+        },
+        {
+          "q": "What database are they moving it to?",
+          "facts": [
+            [
+              "postgres"
+            ]
+          ],
+          "gold": [
+            "docs/meeting-notes.txt"
+          ]
+        },
+        {
+          "q": "What risks did they flag?",
+          "facts": [
+            [
+              "downtime"
+            ]
+          ],
+          "gold": [
+            "docs/meeting-notes.txt"
+          ]
+        },
+        {
+          "q": "Is there a backup plan for that?",
+          "facts": [
+            [
+              "rollback",
+              "dry run"
+            ]
+          ],
+          "gold": [
+            "docs/meeting-notes.txt"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roadmap",
+      "turns": [
+        {
+          "q": "What's planned for Q2 on the product roadmap?",
+          "facts": [
+            [
+              "brazil"
+            ],
+            [
+              "mexico"
+            ]
+          ],
+          "gold": [
+            "office/roadmap.pptx"
+          ]
+        },
+        {
+          "q": "Who do we need to hire for that?",
+          "facts": [
+            [
+              "android"
+            ]
+          ],
+          "gold": [
+            "office/roadmap.pptx"
+          ]
+        },
+        {
+          "q": "And what comes after that, in Q3?",
+          "facts": [
+            [
+              "single sign-on",
+              "sso"
+            ]
+          ],
+          "gold": [
+            "office/roadmap.pptx"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meeting-summary",
+      "turns": [
+        {
+          "q": "Summarise the team meeting",
+          "facts": [
+            [
+              "designer"
+            ],
+            [
+              "march"
+            ]
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        },
+        {
+          "q": "When is the office move?",
+          "facts": [
+            [
+              "march"
+            ]
+          ],
+          "forbid": [
+            "laptop",
+            "churn",
+            "designer"
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        },
+        {
+          "q": "And what did they say about laptops?",
+          "facts": [
+            [
+              "three years",
+              "3 years"
+            ]
+          ],
+          "forbid": [
+            "designer",
+            "churn"
+          ],
+          "gold": [
+            "audio/team-meeting.m4a"
+          ]
+        }
+      ]
+    }
+  ]
+}

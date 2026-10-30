@@ -1,0 +1,79 @@
+diff --git a/ggml/src/ggml-metal/ggml-metal-device.m b/ggml/src/ggml-metal/ggml-metal-device.m
+index 827d926..36433cf 100644
+--- a/ggml/src/ggml-metal/ggml-metal-device.m
++++ b/ggml/src/ggml-metal/ggml-metal-device.m
+@@ -938,6 +938,9 @@ struct ggml_metal_rsets {
+     atomic_bool d_stop;
+     atomic_int  d_loop;
+ 
++    // wakes the heartbeat thread when work resumes after keep_alive_s, or to stop it
++    dispatch_semaphore_t d_wake;
++
+     dispatch_group_t d_group;
+ };
+ 
+@@ -984,14 +987,23 @@ ggml_metal_rsets_t ggml_metal_rsets_init(ggml_metal_device_t dev) {
+         res->keep_alive_s = 3*60;
+     }
+ 
+-    res->time_per_loop_ms = 5;
+-    res->loops_per_s = 1000/res->time_per_loop_ms;
++    // how often residency is requested while the sets are kept alive (upstream: every 5 ms, waking the CPU about 50
++    // times a second even when idle). Familiar: every 250 ms, and no wake-ups at all once keep_alive_s has passed.
++    res->time_per_loop_ms = 250;
++
++    const char * GGML_METAL_RESIDENCY_PERIOD_MS = getenv("GGML_METAL_RESIDENCY_PERIOD_MS");
++    if (GGML_METAL_RESIDENCY_PERIOD_MS && atoi(GGML_METAL_RESIDENCY_PERIOD_MS) > 0) {
++        res->time_per_loop_ms = atoi(GGML_METAL_RESIDENCY_PERIOD_MS);
++    }
++
++    res->loops_per_s = MAX(1, 1000/res->time_per_loop_ms);
+ 
+     GGML_LOG_INFO("%s: creating a residency set collection (keep_alive = %d s)\n", __func__, res->keep_alive_s);
+ 
+     atomic_store_explicit(&res->d_stop, false, memory_order_relaxed);
+     atomic_store_explicit(&res->d_loop, res->loops_per_s*res->keep_alive_s, memory_order_relaxed);
+ 
++    res->d_wake  = dispatch_semaphore_create(0);
+     res->d_group = dispatch_group_create();
+ 
+     // start a background thread that periodically requests residency for all the currently active sets in the collection
+@@ -1011,9 +1023,12 @@ ggml_metal_rsets_t ggml_metal_rsets_init(ggml_metal_device_t dev) {
+                       atomic_fetch_sub_explicit(&res->d_loop, 1, memory_order_relaxed);
+ 
+                       [res->lock unlock];
+-                  }
+ 
+-                  usleep(res->time_per_loop_ms * 1000);
++                      usleep(res->time_per_loop_ms * 1000);
++                  } else {
++                      // idle: sleep until a graph is computed again (keep_alive) or the collection is freed
++                      dispatch_semaphore_wait(res->d_wake, DISPATCH_TIME_FOREVER);
++                  }
+               }
+         }
+ #endif
+@@ -1040,9 +1055,11 @@ void ggml_metal_rsets_free(ggml_metal_rsets_t rsets) {
+     GGML_ASSERT([rsets->data count] == 0);
+ 
+     atomic_store_explicit(&rsets->d_stop, true, memory_order_relaxed);
++    dispatch_semaphore_signal(rsets->d_wake);
+ 
+     dispatch_group_wait(rsets->d_group, DISPATCH_TIME_FOREVER);
+     dispatch_release(rsets->d_group);
++    dispatch_release(rsets->d_wake);
+ 
+     [rsets->data release];
+     [rsets->lock release];
+@@ -1440,7 +1457,10 @@ void ggml_metal_device_rsets_keep_alive(ggml_metal_device_t dev) {
+         return;
+     }
+ 
+-    atomic_store_explicit(&dev->rsets->d_loop, dev->rsets->loops_per_s*dev->rsets->keep_alive_s, memory_order_relaxed);
++    const int prev = atomic_exchange_explicit(&dev->rsets->d_loop, dev->rsets->loops_per_s*dev->rsets->keep_alive_s, memory_order_relaxed);
++    if (prev <= 0) {
++        dispatch_semaphore_signal(dev->rsets->d_wake);
++    }
+ }
+ 
+ struct ggml_metal_event {

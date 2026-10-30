@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Familiar</string>
+	<key>CFBundleExecutable</key>
+	<string>Familiar</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>io.github.kaushicaravind2000.Familiar</string>
+	<key>CFBundleName</key>
+	<string>Familiar</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.2.0</string>
+	<key>CFBundleVersion</key>
+	<string>2</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>13.0</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Familiar records your microphone when you record a meeting, and writes down what's said on this Mac. Nothing leaves your Mac.</string>
+	<key>NSAudioCaptureUsageDescription</key>
+	<string>Familiar records your Mac's sound when you record a meeting, so the other people on a call are in the transcript. Nothing leaves your Mac.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Familiar asks QuickTime Player to open a recording or video at the moment that matched your search.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Familiar reads the files on your Desktop so you can search them by what's in them. Nothing leaves your Mac.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Familiar reads your documents so you can search them by what's in them. Nothing leaves your Mac.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Familiar reads your downloads so you can search them by what's in them. Nothing leaves your Mac.</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSNetworkVolumesUsageDescription</key>
+	<string>Familiar reads the folders you chose on this network disk so you can search them. Nothing leaves your Mac.</string>
+	<key>NSRemovableVolumesUsageDescription</key>
+	<string>Familiar reads the folders you chose on this disk so you can search them. Nothing leaves your Mac.</string>
+</dict>
+</plist>
