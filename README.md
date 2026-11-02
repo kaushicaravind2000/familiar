@@ -126,7 +126,7 @@ your folders ─► FolderScanner (what changed since last time)
              ─► llama-server (bundled, Metal) running EmbeddingGemma 2 + its image/audio encoder
              ─► index.sqlite: a vector per chunk/page/picture/frame/window + an FTS5 keyword index
 your words   ─► "task: search result | query: …" ─► the same model ─► cosine against every vector
-             (Accelerate) + exact-word boost ─► best piece of each file ranks the file
+             (Accelerate; 8-bit: NEON SDOT) + exact-word boost ─► best piece of each file ranks the file
 ```
 
 - **Engine** (`Sources/FamiliarCore`): `EmbeddingModelFiles` (pinned download + checksum), `EmbeddingService` (runs the
@@ -135,7 +135,12 @@ your words   ─► "task: search result | query: …" ─► the same model ─
   server, ~200–330 MB and always loaded, so searches don't wait behind indexing: 17 ms instead of 286 ms while
   indexing pictures), `FolderScanner`, `Extractors` / `Media` (readers), `Ingestor` (3 files at a time), `Catalog`
   (SQLite + FTS5), `Lookup` (hybrid ranking; keeps every vector in memory and, as the index changes, reads only
-  the new rows and marks deleted ones, instead of reloading: ~9 ms instead of ~140 ms per search at 100k vectors).
+  the new rows and marks deleted ones, instead of reloading: ~9 ms instead of ~140 ms per search at 100k vectors),
+  `VectorKernels` (the scoring arithmetic: Accelerate for 32-bit floats; for 8-bit vectors the C kernel in
+  `Sources/Int8Kernels`, which uses the NEON int8 dot-product instruction, SDOT).
+- **Int8 kernel** (`Sources/Int8Kernels`): C, because Swift can't reach SDOT; four rows at a time, the dot products
+  summed exactly as 32-bit integers, so results are the same as plain arithmetic. A million 8-bit vectors on one core:
+  10.6 ms instead of 25.5 ms for the Swift loop it replaced (M4 Max, `fam bench-vectors --threads 1`).
 - **App** (`Sources/FamiliarApp`): AppKit + SwiftUI menu-bar app: search panel, preview, setup/settings, FSEvents
   folder watcher (new files are searchable seconds after they land), Carbon global hotkey.
 - **CLI** (`Sources/fam`): the same engine from the terminal:
@@ -148,6 +153,7 @@ your words   ─► "task: search result | query: …" ─► the same model ─
   .build/release/fam status
   .build/release/fam latency ~/Pictures [--shared]   # search speed while indexing, with or without the search server
   .build/release/fam selftest                        # incremental vector loading vs full reloads, on temporary indexes
+  .build/release/fam bench-vectors [--threads 1]      # 8-bit vs 32-bit search speed and agreement, synthetic vectors
   ```
   `FAMILIAR_INDEX=/tmp/test.sqlite` points it at a separate index for testing.
 
@@ -162,7 +168,7 @@ Settings → Memory use: Automatic picks **Low** on Macs with 12 GB or less, **S
 |---|---|---|
 | Indexing model (while indexing, then unloaded) | 4 slots × 2,048 tokens, peak ~2.6 GB, unloads after 5 idle min | 2 slots × 1,024 tokens, peak ~1.85 GB, unloads after 1 idle min |
 | Search model (~0.2–0.3 GB, always loaded) | on by default | off by default |
-| Vectors in memory | 32-bit floats (100k pieces: 293 MB) | 8-bit, best 1,000 rescored exactly (100k: 74 MB, same top results) |
+| Vectors in memory | 32-bit floats (100k pieces: 293 MB) | 8-bit, best 1,000 rescored exactly (100k: 74 MB, same top results; scored with SDOT, faster than 32-bit) |
 
 The app itself peaks around 330 MB while indexing and settles near 100 MB. Measured on an M4 Max; a Mac with fewer
 graphics cores indexes proportionally slower (a base M1 roughly 4–5× slower, estimated, not measured).

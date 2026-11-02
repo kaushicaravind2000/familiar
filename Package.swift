@@ -5,6 +5,7 @@ import PackageDescription
 //   FamiliarCore  the engine: model files, the llama-server helper, readers, the SQLite index, search. No UI.
 //   FamiliarApp  the menu-bar app (build.sh wraps it into build/Familiar.app).
 //   fam             a command-line tool for indexing and searching from the terminal, handy for testing.
+//   Int8Kernels     the 8-bit search kernel in C, for the NEON dot-product instruction Swift can't reach.
 let package = Package(
     name: "Familiar",
     platforms: [.macOS(.v13)],
@@ -13,7 +14,8 @@ let package = Package(
         .executable(name: "fam", targets: ["fam"]),
     ],
     targets: [
-        .target(name: "FamiliarCore", linkerSettings: [.linkedLibrary("sqlite3")]),
+        .target(name: "Int8Kernels"),
+        .target(name: "FamiliarCore", dependencies: ["Int8Kernels"], linkerSettings: [.linkedLibrary("sqlite3")]),
         .executableTarget(name: "FamiliarApp", dependencies: ["FamiliarCore"]),
         .executableTarget(name: "fam", dependencies: ["FamiliarCore"]),
     ]

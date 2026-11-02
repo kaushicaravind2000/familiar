@@ -142,8 +142,7 @@ public final class Lookup: @unchecked Sendable {
         var worst: Float = 0
         for hit in hits {
             guard let vector = exact[hit.segment] else { continue }   // deleted since: skip it
-            var dot: Float = 0
-            vDSP_dotpr(vector, 1, query, 1, &dot, vDSP_Length(vector.count))
+            let dot = VectorKernels.dot(vector, query, count: vector.count)
             worst = max(worst, abs(dot - hit.score))
             rescored.append((hit.segment, hit.file, dot))
         }
@@ -153,89 +152,26 @@ public final class Lookup: @unchecked Sendable {
 
     /// Call with `lock` held.
     private func exactScores(_ query: [Float]) -> [Float] {
-        let rows = segmentIDs.count, dimension = EmbeddingService.dimension
-        var scores = [Float](repeating: 0, count: rows)
-        matrix.withUnsafeBufferPointer { m in
-            query.withUnsafeBufferPointer { q in
-                cblas_sgemv(CblasRowMajor, CblasNoTrans, Int32(rows), Int32(dimension), 1, m.baseAddress, Int32(dimension),
-                            q.baseAddress, 1, 0, &scores, 1)
-            }
+        matrix.withUnsafeBufferPointer {
+            VectorKernels.exactScores($0, rows: segmentIDs.count, dimension: EmbeddingService.dimension, query: query)
         }
-        return scores
     }
 
     /// Integer dot products of the 8-bit rows with the query rounded the same way, on every core. Call with `lock` held.
     private func approximateScores(_ query: [Float]) -> [Float] {
-        let rows = segmentIDs.count, dimension = EmbeddingService.dimension
-        let (q, queryScale) = Self.quantize(query[...])
-        var scores = [Float](repeating: 0, count: rows)
-        let chunks = min(16, max(1, rows / 2048))
         quantized.withUnsafeBufferPointer { m in
-            q.withUnsafeBufferPointer { qv in
-                scales.withUnsafeBufferPointer { rowScales in
-                    scores.withUnsafeMutableBufferPointer { out in
-                        DispatchQueue.concurrentPerform(iterations: chunks) { chunk in
-                            for r in rows * chunk / chunks ..< rows * (chunk + 1) / chunks {
-                                let row = m.baseAddress! + r * dimension
-                                var sum: Int32 = 0
-                                for k in 0..<dimension { sum &+= Int32(row[k]) &* Int32(qv[k]) }
-                                out[r] = Float(sum) * rowScales[r] * queryScale
-                            }
-                        }
-                    }
-                }
+            scales.withUnsafeBufferPointer {
+                VectorKernels.approximateScores(m, scales: $0, rows: segmentIDs.count, dimension: EmbeddingService.dimension,
+                                                query: query)
             }
         }
-        return scores
     }
 
-    /// The rows with the `count` highest scores, best first, leaving out `skipping`. Only those few are kept in order,
-    /// in a small heap, instead of sorting every score: at a million pieces the full sort took 125 ms.
     static func best(_ count: Int, of scores: [Float], skipping: Set<Int> = []) -> [Int] {
-        guard count > 0 else { return [] }
-        // A min-heap: the weakest score kept so far is at the top, and anything not above it is passed over.
-        var heap: [(score: Float, row: Int)] = []
-        heap.reserveCapacity(min(count, scores.count))
-        func siftDown(_ start: Int) {
-            var i = start
-            while true {
-                let left = 2 * i + 1, right = left + 1
-                var smallest = i
-                if left < heap.count && heap[left].score < heap[smallest].score { smallest = left }
-                if right < heap.count && heap[right].score < heap[smallest].score { smallest = right }
-                if smallest == i { return }
-                heap.swapAt(i, smallest)
-                i = smallest
-            }
-        }
-        scores.withUnsafeBufferPointer { s in
-            for row in 0..<s.count {
-                let score = s[row]
-                if heap.count == count && !(score > heap[0].score) { continue }
-                if skipping.contains(row) { continue }
-                if heap.count < count {
-                    heap.append((score, row))
-                    var i = heap.count - 1
-                    while i > 0 && heap[(i - 1) / 2].score > heap[i].score {
-                        heap.swapAt(i, (i - 1) / 2)
-                        i = (i - 1) / 2
-                    }
-                } else {
-                    heap[0] = (score, row)
-                    siftDown(0)
-                }
-            }
-        }
-        return heap.sorted { $0.score > $1.score }.map(\.row)
+        VectorKernels.best(count, of: scores, skipping: skipping)
     }
 
-    /// A vector as 8-bit integers and the scale that turns them back: its largest value maps to ±127.
-    static func quantize(_ vector: ArraySlice<Float>) -> ([Int8], Float) {
-        let largest = vector.reduce(0) { max($0, abs($1)) }
-        guard largest > 0 else { return ([Int8](repeating: 0, count: vector.count), 0) }
-        let scale = largest / 127
-        return (vector.map { Int8(max(-127, min(127, ($0 / scale).rounded()))) }, scale)
-    }
+    static func quantize(_ vector: ArraySlice<Float>) -> ([Int8], Float) { VectorKernels.quantize(vector) }
 
     /// Adds rows in this searcher's format. Call with `lock` held.
     private func append(_ vectors: [Float]) {

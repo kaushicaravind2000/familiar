@@ -183,6 +183,11 @@ do {
         print(String(format: "%@ server: search while indexing p50 %.0f ms, max %.0f ms",
                      shared ? "shared indexing" : "dedicated search", times[times.count / 2], times.last!))
 
+    case "bench-vectors":
+        // fam bench-vectors [--sizes 10000,100000,1000000] [--queries 200] [--threads n] [--json <out>]: 8-bit vectors
+        // with exact rescoring against float32, on this machine (synthetic data; see BenchVectors.swift).
+        try benchVectors(Array(arguments.dropFirst()))
+
     case "eval":
         // fam eval <queries.json> [--reindex] [--index <file>] [--json <out>] [--baseline <json>]: search quality.
         try await runEval(Array(arguments.dropFirst()))
