@@ -1,8 +1,8 @@
 import Foundation
 
 /// How much memory Familiar allows itself. Macs with 12 GB or less get `.low` automatically: a leaner indexing
-/// server (peak ~1.85 GB instead of ~2.6 GB, measured), photos at half the detail (about twice as fast to read), vectors
-/// held as 8-bit numbers (a quarter of the memory), and no search model kept loaded unless asked for.
+/// server (peak ~1.85 GB instead of ~2.6 GB, measured), vectors held as 8-bit numbers (a quarter of the memory), and no
+/// search model kept loaded unless asked for. Pictures are read at the same detail in both (`budgets`).
 public enum MemoryProfile: String, CaseIterable, Sendable {
     case standard, low
 

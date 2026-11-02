@@ -242,7 +242,19 @@ public actor Ingestor {
 
     // MARK: - Readers
 
+    /// What a file holds, checked for keys and passwords before anything of it is stored. Every reader's text ends up
+    /// in its keyword rows (chunks, page and slide text, a picture's text, a transcript), and snippets and embedded
+    /// text are cut from the same strings, so one check of the rows covers them all, readers added later included.
+    /// Text and documents are also checked before they're embedded, which saves the work.
     private func read(_ candidate: Candidate) async throws -> ([SegmentRow], [KeywordRow]) {
+        let (segments, keywords) = try await readContents(candidate)
+        if keywords.contains(where: { Privacy.holdsSecret($0.text) }) { throw ReadError.unreadable(Self.secretSkipped) }
+        return (segments, keywords)
+    }
+
+    static let secretSkipped = "skipped: it holds a key or password"
+
+    private func readContents(_ candidate: Candidate) async throws -> ([SegmentRow], [KeywordRow]) {
         let url = candidate.url
         let title = url.deletingPathExtension().lastPathComponent
         switch candidate.kind {
@@ -277,7 +289,7 @@ public actor Ingestor {
 
     /// Text that holds a private key or an access key is never stored: the file is recorded as skipped instead.
     private func skippingSecrets(_ text: String) throws -> String {
-        if Privacy.holdsSecret(text) { throw ReadError.unreadable("skipped: it holds a key or password") }
+        if Privacy.holdsSecret(text) { throw ReadError.unreadable(Self.secretSkipped) }
         return text
     }
 

@@ -112,8 +112,9 @@ pictures: 59 s instead of 11 s). Changes in pace are logged to `Logs/app.log`.
   soundtrack like audio
 
 It never reads keys, certificates, credentials or password files: by name (`id_rsa`, `.pem`, "credentials",
-"password", "recovery codes", …) and by content (a private-key block or a cloud access key in an ordinary-looking text
-file). csv, tsv and log files are read only with Settings → "Read data files" on. It skips hidden folders, app bundles and libraries (Photos, Music), dependency and build folders (`node_modules`,
+"password", "recovery codes", …) and by content (a private-key block or a cloud access key in any text it reads: a
+document, a PDF or slide, the text in a picture or screenshot, a recording's transcript). Such a file stores nothing
+and is listed as skipped. csv, tsv and log files are read only with Settings → "Read data files" on. It skips hidden folders, app bundles and libraries (Photos, Music), dependency and build folders (`node_modules`,
 `.venv`, `build/` in code projects), folders with 3,000+ files (datasets), and iCloud files that aren't downloaded
 (it never downloads them). It only reads files; it never changes, moves or uploads them.
 
