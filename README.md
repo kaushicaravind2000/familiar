@@ -9,7 +9,10 @@ Your Mac, searchable and listening. Three things, all running on your Mac, with 
   app, no bot joining) with a transcript, your notes and who said what.
 
 Familiar's file search was inspired by [DigUp](https://github.com/ARahim3/DigUp) by Abdur Rahim, the open-source
-search that first put EmbeddingGemma 2 to work on the files on your computer.
+search that first put EmbeddingGemma 2 to work on the files on your computer, and by
+[Google AI Edge Foresight](https://developers.google.com/edge/foresight), Google's experimental on-device Mac app
+that pairs EmbeddingGemma 2 with Gemma 4 for meeting notes and local search. Familiar is an independent project, not
+affiliated with Google.
 
 ## Download and install
 

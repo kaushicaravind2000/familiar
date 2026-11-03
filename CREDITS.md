@@ -22,6 +22,8 @@
 
 **DigUp** by Abdur Rahim, the open-source file search for Mac, Windows and Linux whose design inspired Familiar's: describing a file to find it with EmbeddingGemma 2. MIT. https://github.com/ARahim3/DigUp
 
+**Google AI Edge Foresight** by Google, the experimental on-device Mac app that pairs EmbeddingGemma 2 with Gemma 4 for meeting notes and local search, which also inspired Familiar. Familiar is independent and not affiliated with Google. https://developers.google.com/edge/foresight
+
 Text in pictures and scans is read with Apple's Vision framework, part of macOS.
 
 The licence texts of the programs built into the app are in THIRD-PARTY-NOTICES.md.
