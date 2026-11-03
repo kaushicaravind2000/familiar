@@ -197,6 +197,11 @@ at a part of a recording by number (`audio/radio-show.m4a@seg3`): the generator 
 Picture detail (soft tokens) was chosen this way: photo 140, screenshot 280, scanned page 280, video frame 70 ranked
 all 99 queries the same as 280 / 280 / 560 / 140 and read pictures about twice as fast.
 
+`analysis/` (Python, not part of the app) holds what `fam` doesn't do. It tests the 8-bit C kernel against exact
+NumPy arithmetic, keeps a separate copy of the 8-bit search, and measures how much of the exact top 10 survives each
+shortlist size. It also compares `--json` reports query by query, with 95% intervals, so a change can be told apart
+from noise. See [analysis/README.md](analysis/README.md).
+
 ## When things go wrong
 
 - **A folder macOS won't open** (privacy settings): Settings lists it with a button to the Privacy settings; its files

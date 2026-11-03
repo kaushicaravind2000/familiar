@@ -12,3 +12,9 @@ evals/results/
 evals/reference-inputs/
 evals/reference-vectors.json
 scripts/fresh-start.sh
+
+# analysis/ (Python): its environment, caches and the compiled kernel
+analysis/.venv/
+analysis/.build/
+__pycache__/
+.pytest_cache/
