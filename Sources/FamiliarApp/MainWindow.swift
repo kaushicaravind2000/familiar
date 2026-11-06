@@ -87,7 +87,6 @@ final class MainNavigation: ObservableObject {
 @MainActor
 final class ChatsModel: ObservableObject {
     struct Pending {
-        let question: String
         var standalone: String?
         var searches: [String] = []
         var passages: [Passage] = []
@@ -143,7 +142,7 @@ final class ChatsModel: ObservableObject {
         selected = chat
         store.append(chat: chat, role: .user, content: question)
         reload()
-        pending = Pending(question: question)
+        pending = Pending()
         AppState.shared.chatStarted()
         AppLog.write("chat: a question (\(question.count) characters, \(history.count) earlier turns)")
         let scope = self.scope
@@ -515,28 +514,26 @@ struct SourceChip: View {
     }
 }
 
-/// The question being answered: what was searched, then the answer as it's written.
+/// The answer in progress: what was searched, then the answer as it's written. The question itself is already in the
+/// chat's turns, saved when it was sent.
 struct PendingView: View {
     let pending: ChatsModel.Pending
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            QuestionBubble(text: pending.question)
-            VStack(alignment: .leading, spacing: 8) {
-                if let standalone = pending.standalone {
-                    Label("Searching for: \(standalone)", systemImage: "magnifyingglass").font(.caption).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 8) {
+            if let standalone = pending.standalone {
+                Label("Searching for: \(standalone)", systemImage: "magnifyingglass").font(.caption).foregroundStyle(.secondary)
+            }
+            if pending.finding {
+                HStack(spacing: 8) { ProgressView().controlSize(.small); Text("Looking through your files…").foregroundStyle(.secondary) }
+            } else if pending.answer.isEmpty {
+                HStack(spacing: 8) {
+                    ProgressView().controlSize(.small)
+                    Text("Reading \(pending.passages.count) passage\(pending.passages.count == 1 ? "" : "s")…").foregroundStyle(.secondary)
                 }
-                if pending.finding {
-                    HStack(spacing: 8) { ProgressView().controlSize(.small); Text("Looking through your files…").foregroundStyle(.secondary) }
-                } else if pending.answer.isEmpty {
-                    HStack(spacing: 8) {
-                        ProgressView().controlSize(.small)
-                        Text("Reading \(pending.passages.count) passage\(pending.passages.count == 1 ? "" : "s")…").foregroundStyle(.secondary)
-                    }
-                } else {
-                    Text(PanelView.cited(pending.answer, count: pending.passages.count))
-                        .font(.system(size: 15)).lineSpacing(3).fixedSize(horizontal: false, vertical: true)
-                }
+            } else {
+                Text(PanelView.cited(pending.answer, count: pending.passages.count))
+                    .font(.system(size: 15)).lineSpacing(3).fixedSize(horizontal: false, vertical: true)
             }
         }
     }
