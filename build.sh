@@ -30,6 +30,11 @@ cp "$TRANSCRIBER" "$APP/Contents/Helpers/familiar-speech"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp CREDITS.md THIRD-PARTY-NOTICES.md "$APP/Contents/Resources/"   # the About box's credits, and the licences shipped
 
+# Nothing about this machine goes out in the app: no local paths, source file names or symbol tables.
+EXECUTABLES=("$APP/Contents/MacOS/$APP_NAME" "$APP/Contents/Helpers/llama-server" "$APP/Contents/Helpers/fam" "$APP/Contents/Helpers/familiar-speech")
+python3 scripts/scrub-binaries.py "${EXECUTABLES[@]}"
+strip "${EXECUTABLES[@]}"
+
 # The icon, drawn by scripts/make-icon.swift, at every size macOS asks for.
 ICONSET="$OUT/AppIcon.iconset"
 if [[ ! -f "$OUT/AppIcon.icns" || scripts/make-icon.swift -nt "$OUT/AppIcon.icns" ]]; then
