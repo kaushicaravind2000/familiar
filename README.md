@@ -256,3 +256,8 @@ About box. In short: EmbeddingGemma 2 (Google DeepMind, Apache 2.0), Qwen3.5-4B 
 Unified 0.6B (licensed by NVIDIA Corporation under the NVIDIA Open Model License), LocalVQE (Apache 2.0), pyannote
 community-1 with WeSpeaker and BUT Speech@FIT (CC BY 4.0), Core ML conversions by Fluid Inference, llama.cpp (MIT),
 FluidAudio (Apache 2.0). Gemma is a trademark of Google LLC.
+
+## License
+
+Familiar's own code is under the [MIT License](LICENSE). The models and libraries it uses keep their own licenses,
+listed above and in [CREDITS.md](CREDITS.md).
